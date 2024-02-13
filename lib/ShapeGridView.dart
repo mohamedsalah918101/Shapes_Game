@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:fnametheshape/ShapesModel.dart';
 
-class ShapeGridView extends StatefulWidget{
+class ShapeGridView extends StatefulWidget {
   @override
   State<ShapeGridView> createState() {
     return ShapeGridViewState();
   }
-
 }
-class ShapeGridViewState extends State<ShapeGridView>{
 
+class ShapeGridViewState extends State<ShapeGridView> {
   List<ShapesModel> shapes = [
     ShapesModel(shapeName: "Triangle", imagePath: "assets/images/triangle2.webp", visiability: false),
-    ShapesModel(shapeName: "rectangular", imagePath: "assets/images/rectangular.png", visiability: false),
-    ShapesModel(shapeName: "star", imagePath: "assets/images/star.png", visiability: false),
-    ShapesModel(shapeName: "circle", imagePath: "assets/images/circle2.png", visiability: false),
-    ShapesModel(shapeName: "square", imagePath: "assets/images/square.jpeg", visiability: false),
-    ShapesModel(shapeName: "pentagon", imagePath: "assets/images/pent.jpg", visiability: false),
-
+    ShapesModel(shapeName: "Rectangular", imagePath: "assets/images/rectangular.png", visiability: false),
+    ShapesModel(shapeName: "Star", imagePath: "assets/images/star.png", visiability: false),
+    ShapesModel(shapeName: "Circle", imagePath: "assets/images/circle2.png", visiability: false),
+    ShapesModel(shapeName: "Square", imagePath: "assets/images/square.jpeg", visiability: false),
+    ShapesModel(shapeName: "Pentagon", imagePath: "assets/images/pent.jpg", visiability: false),
   ];
 
   @override
@@ -28,13 +26,13 @@ class ShapeGridViewState extends State<ShapeGridView>{
         title: Text("Name the Shape"),
       ),
       body: GridView.builder(
-          itemCount: shapes.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2
-          ),
-          itemBuilder: (BuildContext context, int index){
-            return buildImageColumn(index);
-          }
+        itemCount: shapes.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+        ),
+        itemBuilder: (BuildContext context, int index) {
+          return buildImageColumn(index);
+        },
       ),
     );
   }
@@ -54,34 +52,51 @@ class ShapeGridViewState extends State<ShapeGridView>{
     return GestureDetector(
       onTap: () {
         //visibility
-        if(shapes[columnIndex].visiability!){
+        if (shapes[columnIndex].visiability!) {
           shapes[columnIndex].visiability = false;
-        }else{
+        } else {
           shapes[columnIndex].visiability = true;
         }
-        setState(() {
-
-        });
+        setState(() {});
       },
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            shapes[columnIndex].imagePath!,
-            width: 90,
-            height: 90,
+          Stack(
+            children: [
+              Image.asset(
+                shapes[columnIndex].imagePath!,
+                width: 100,
+                height: 100,
+              ),
+              SizedBox(height: 140,),
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: 150,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black, width: 3), // Yellow border
+                    ),
+                    // Placeholder for the shape name
+                    child: Visibility(
+                      visible: shapes[columnIndex].visiability!,
+                      child: Center(
+                        child: Text(
+                          shapes[columnIndex].shapeName!,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 10),
-
-          Visibility(visible:
-            shapes[columnIndex].visiability!,
-            child: Text(
-            shapes[columnIndex].shapeName!,
-            style: TextStyle(fontSize: 20,),
-          )
-          ),
         ],
       ),
     );
   }
-
 }
